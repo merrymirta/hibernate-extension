@@ -12,14 +12,12 @@ import org.hibernate.event.service.spi.EventListenerRegistry;
 import org.hibernate.event.spi.EventType;
 import org.hibernate.integrator.spi.Integrator;
 import org.hibernate.service.spi.SessionFactoryServiceRegistry;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
  * Created by Igor_Seliverstov on 10/27/2015.
- *
  */
 @Service
 public class MyIntegrator implements Integrator {
@@ -35,18 +33,18 @@ public class MyIntegrator implements Integrator {
         Field[] declaredFields = EventType.class.getDeclaredFields();
 
         for (Field declaredField : declaredFields) {
-            if(
+            if (
                     Modifier.isFinal(declaredField.getModifiers()) &&
                             Modifier.isPublic(declaredField.getModifiers()) &&
                             Modifier.isStatic(declaredField.getModifiers()) &&
                             declaredField.getType().isAssignableFrom(EventType.class)
-                    ){
+                    ) {
                 try {
                     EventType eventType = (EventType) declaredField.get(null);
                     Class listenerInterface = eventType.baseListenerInterface();
                     Object[] objects = toArray(beanFactory.getBeansOfType(listenerInterface).values());
-                    if(objects.length > 0){
-                                    serviceRegistry.getService(EventListenerRegistry.class).appendListeners(eventType, objects);
+                    if (objects.length > 0) {
+                        serviceRegistry.getService(EventListenerRegistry.class).appendListeners(eventType, objects);
                     }
 
                 } catch (IllegalAccessException e) {
