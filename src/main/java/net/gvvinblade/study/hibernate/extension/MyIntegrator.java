@@ -27,6 +27,7 @@ public class MyIntegrator implements Integrator {
 
     private static final Log LOG = LogFactory.getLog(MyIntegrator.class);
 
+    @SuppressWarnings("unchecked")
     @Override
     public void integrate(Metadata metadata, SessionFactoryImplementor sessionFactory, SessionFactoryServiceRegistry serviceRegistry) {
 
