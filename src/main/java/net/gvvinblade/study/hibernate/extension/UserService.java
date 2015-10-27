@@ -4,7 +4,7 @@ package net.gvvinblade.study.hibernate.extension;
  * Created by Igor_Seliverstov on 10/27/2015.
  */
 public interface UserService {
-    void saveUser(User user);
+    void saveUser(UserEntity user);
 
-    User getUser(Integer id);
+    UserEntity getUser(Integer id);
 }

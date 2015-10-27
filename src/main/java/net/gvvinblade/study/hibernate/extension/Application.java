@@ -1,7 +1,6 @@
 package net.gvvinblade.study.hibernate.extension;
 
 
-
 import java.io.IOException;
 import java.util.Properties;
 
@@ -23,10 +22,6 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.ConfigurableMapper;
-
 /**
  *
  */
@@ -37,7 +32,7 @@ import ma.glasnost.orika.impl.ConfigurableMapper;
 public class Application {
 
     @Bean
-    public static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer(){
+    public static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
         PropertyPlaceholderConfigurer configurer = new PropertyPlaceholderConfigurer();
         configurer.setLocation(new ClassPathResource("configuration.properties"));
         return configurer;
@@ -52,7 +47,7 @@ public class Application {
             @Value("${datasource.username}")
             String username,
             @Value("${datasource.password}")
-            String password){
+            String password) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource(url, username, password);
         dataSource.setDriverClassName(driverClassName);
         return dataSource;
@@ -70,26 +65,11 @@ public class Application {
     }
 
     @Bean
-    public MapperFacade mapper(){
-        return new ConfigurableMapper(){
-            @Override
-            protected void configure(MapperFactory factory) {
-                super.configure(factory);
-                configureMapper(factory);
-            }
-        };
-    }
-
-    @Bean
     @Autowired
-    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory){
+    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
         transactionManager.afterPropertiesSet();
         return transactionManager;
-    }
-
-    private void configureMapper(MapperFactory factory) {
-        factory.classMap(UserEntity.class, User.class).register();
     }
 
     private Properties getHibernateProperties() {
@@ -104,13 +84,6 @@ public class Application {
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Application.class);
-
-        UserService bean = context.getBean(UserService.class);
-
-        User user = new User();
-        user.setName("Igor");
-
-        bean.saveUser(user);
     }
 
 

@@ -1,5 +1,7 @@
 package net.gvvinblade.study.hibernate.extension;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.integrator.spi.Integrator;
@@ -11,13 +13,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MyIntegrator implements Integrator {
+
+    private static final Log LOG = LogFactory.getLog(MyIntegrator.class);
+
     @Override
     public void integrate(Metadata metadata, SessionFactoryImplementor sessionFactory, SessionFactoryServiceRegistry serviceRegistry) {
-        System.out.println("integrate");
+        LOG.debug("integrate");
     }
 
     @Override
     public void disintegrate(SessionFactoryImplementor sessionFactory, SessionFactoryServiceRegistry serviceRegistry) {
-        System.out.println("disintegrate");
+        LOG.debug("disintegrate");
     }
 }
